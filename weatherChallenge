@@ -1,0 +1,30 @@
+import numpy as np
+import pandas as pd
+
+#computes new column (absolute difference between columns with max/min values)
+def computeDifference(dataset, colMax, colMin):
+    dataset['colDifference'] = np.abs(dataset[colMax] - dataset[colMin])
+    
+    print('Dataset now looks like this:')
+    print(dataset)
+    return dataset
+
+#find minimal difference max-min and return the index value
+def findMinimum(dataWithDifference, colIndex):
+    #smallestSpread = dataWithDifference['colDifference'].min()[colIndex].values[0]
+    itemOfInterest = dataWithDifference[dataWithDifference['colDifference'] == dataWithDifference['colDifference'].min()][colIndex].values[0]
+
+    print('Smallest spread: ')
+    print(itemOfInterest)
+    return itemOfInterest
+
+
+if __name__ == '__main__':
+    filenames = ['weather.csv'] #,'football.csv']
+    filepath = 'C:\\Users\Aurora\Desktop\\'
+    filename = filepath + filenames[0]
+    print(filename)
+    
+    rawData = pd.read_csv(filename)
+    dataWithDifference = computeDifference(dataset = rawData, colMax = 'MxT', colMin = 'MnT')
+    itemOfInterest = findMinimum(dataWithDifference=dataWithDifference, colIndex = 'Day')
